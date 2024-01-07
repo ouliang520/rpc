@@ -1,5 +1,3 @@
-import com.ouliang.common.IUserService;
-
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;

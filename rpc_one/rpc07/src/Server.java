@@ -1,5 +1,3 @@
-import com.ouliang.common.User;
-
 import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;

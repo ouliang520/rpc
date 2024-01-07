@@ -1,9 +1,7 @@
 import com.ouliang.common.IUserService;
 import com.ouliang.common.User;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
@@ -24,11 +22,8 @@ public class Stub {
             oos.flush();
 
 
-            DataInputStream dis = new DataInputStream(s.getInputStream());
-            int id = dis.readInt();
-            String name = dis.readUTF();
-            User user = new User(id, name);
-
+            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
+            User user = (User) ois.readObject();
 
             oos.close();
             s.close();

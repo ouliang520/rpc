@@ -1,9 +1,9 @@
 import com.ouliang.common.IUserService;
 import com.ouliang.common.User;
 
+import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.DataOutputStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Proxy;
 import java.net.Socket;
@@ -13,20 +13,19 @@ public class Stub {
     public static IUserService getStub() {
         InvocationHandler h = (proxy, method, args) -> {
             Socket s = new Socket("localhost", 8888);
-            ObjectOutputStream oos = new ObjectOutputStream(s.getOutputStream());
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(baos);
+            dos.writeInt(123);
 
-            String methodName = method.getName(); //方法名
-            Class[] parametersTypes = method.getParameterTypes(); //参数类型
-            oos.writeUTF(methodName);
-            oos.writeObject(parametersTypes);
-            oos.writeObject(args);
-            oos.flush();
+            s.getOutputStream().write(baos.toByteArray());
+            s.getOutputStream().flush();
 
+            DataInputStream dis = new DataInputStream(s.getInputStream());
+            int id = dis.readInt();
+            String name = dis.readUTF();
+            User user = new User(id, name);
 
-            ObjectInputStream ois = new ObjectInputStream(s.getInputStream());
-            User user = (User) ois.readObject();
-
-            oos.close();
+            dos.close();
             s.close();
             return user;
         };
