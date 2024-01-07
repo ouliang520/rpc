@@ -3,6 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/rpc_one/Common/Common.iml" filepath="$PROJECT_DIR$/rpc_one/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc_two/Consumer/Consumer.iml" filepath="$PROJECT_DIR$/rpc_two/Consumer/Consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc_two/Provider/Provider.iml" filepath="$PROJECT_DIR$/rpc_two/Provider/Provider.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc_two/Provider-Consumer/Provider-Consumer.iml" filepath="$PROJECT_DIR$/rpc_two/Provider-Consumer/Provider-Consumer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc_two/ouliangRPC/ouliangRPC.iml" filepath="$PROJECT_DIR$/rpc_two/ouliangRPC/ouliangRPC.iml" />
       <module fileurl="file://$PROJECT_DIR$/rpc.iml" filepath="$PROJECT_DIR$/rpc.iml" />
       <module fileurl="file://$PROJECT_DIR$/rpc_one/rpc01/rpc01.iml" filepath="$PROJECT_DIR$/rpc_one/rpc01/rpc01.iml" />
       <module fileurl="file://$PROJECT_DIR$/rpc_one/rpc02/rpc02.iml" filepath="$PROJECT_DIR$/rpc_one/rpc02/rpc02.iml" />
@@ -12,6 +16,7 @@
       <module fileurl="file://$PROJECT_DIR$/rpc_one/rpc06/rpc06.iml" filepath="$PROJECT_DIR$/rpc_one/rpc06/rpc06.iml" />
       <module fileurl="file://$PROJECT_DIR$/rpc_one/rpc07/rpc07.iml" filepath="$PROJECT_DIR$/rpc_one/rpc07/rpc07.iml" />
       <module fileurl="file://$PROJECT_DIR$/rpc_one/rpc_one.iml" filepath="$PROJECT_DIR$/rpc_one/rpc_one.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc_two/rpc_two.iml" filepath="$PROJECT_DIR$/rpc_two/rpc_two.iml" />
     </modules>
   </component>
 </project>
