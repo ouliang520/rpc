@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/Common/Common.iml" filepath="$PROJECT_DIR$/Common/Common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc.iml" filepath="$PROJECT_DIR$/rpc.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc01/rpc01.iml" filepath="$PROJECT_DIR$/rpc01/rpc01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc02/rpc02.iml" filepath="$PROJECT_DIR$/rpc02/rpc02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc03/rpc03.iml" filepath="$PROJECT_DIR$/rpc03/rpc03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc04/rpc04.iml" filepath="$PROJECT_DIR$/rpc04/rpc04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc05/rpc05.iml" filepath="$PROJECT_DIR$/rpc05/rpc05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc06/rpc06.iml" filepath="$PROJECT_DIR$/rpc06/rpc06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rpc07/rpc07.iml" filepath="$PROJECT_DIR$/rpc07/rpc07.iml" />
+    </modules>
+  </component>
+</project>
