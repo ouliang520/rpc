@@ -6,10 +6,12 @@ public class URL implements Serializable {
 
     private String hostname;
     private Integer port;
+    long expiryTime;
 
     public URL(String hostname, Integer port) {
         this.hostname = hostname;
         this.port = port;
+        this.expiryTime = System.currentTimeMillis();
     }
 
     public String getHostname() {
@@ -26,5 +28,18 @@ public class URL implements Serializable {
 
     public void setPort(Integer port) {
         this.port = port;
+    }
+
+    public long getExpiryTime() {
+        return expiryTime;
+    }
+
+    // 更新过期时间
+    public void setExpiryTime() {
+        this.expiryTime += 10000;
+    }
+
+    public boolean isExpired() {
+        return System.currentTimeMillis() > getExpiryTime();
     }
 }

@@ -12,23 +12,62 @@ import java.util.Map;
 public class MapRemoteRegister {
     private static Map<String, List<URL>> map = new HashMap<>();
 
-    public static void register(String interfaceName, URL url) {
-        List<URL> list = map.get(interfaceName);
+    static {
+
+    }
+
+    private static void cleanUp() {
+        for (String key : map.keySet()) {
+            map.get(key).removeIf(URL::isExpired);
+        }
+        save(false);
+    }
+
+    public static void registerOnTime(String interfaceName,String version, URL url) {
+        new Thread((Runnable) () -> {
+            while (true) {
+                System.out.println("线程启动");
+                List<URL> list = map.get(interfaceName + version);
+                if (list == null) {
+                    list = new ArrayList<>();
+                }
+                url.setExpiryTime();
+                list.add(url);
+                map.put(interfaceName + version, list);
+                save(true);
+                try {
+                    Thread.sleep(90000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        System.out.println("方法完毕------------------");
+
+    }
+
+    public static void register(String interfaceName, String version, URL url) {
+        List<URL> list = map.get(interfaceName + version);
         if (list == null) {
             list = new ArrayList<>();
         }
+        url.setExpiryTime();
         list.add(url);
-        map.put(interfaceName, list);
-
-        save();
+        map.put(interfaceName + version, list);
+        save(true);
     }
 
     public static List<URL> get(String interfaceName) {
         map = get();
+        cleanUp();
+        List<URL> urls = map.get(interfaceName);
+
         return map.get(interfaceName);
     }
 
-    private static void save() {
+    private static void save(boolean flag) {
+        if (new File("register.txt").exists() && flag)
+            map.putAll(get());
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream("register.txt");
@@ -45,7 +84,7 @@ public class MapRemoteRegister {
     private static Map<String, List<URL>> get() {
         FileInputStream fileInputStream = null;
         try {
-            fileInputStream = new FileInputStream("/register.txt");
+            fileInputStream = new FileInputStream("register.txt");
             ObjectInputStream ois = new ObjectInputStream(fileInputStream);
             return (Map<String, List<URL>>) ois.readObject();
         } catch (FileNotFoundException e) {

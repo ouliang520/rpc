@@ -22,7 +22,7 @@ public class ProxyFactory {
                 HttpClient httpClient = new HttpClient();
 
                 // 服务发现
-                List<URL> list = MapRemoteRegister.get(interfaceClass.getName());
+                List<URL> list = MapRemoteRegister.get(interfaceClass.getName()+version);
 
                 // 负载均衡
                 URL url = Loadbalancer.random(list);
