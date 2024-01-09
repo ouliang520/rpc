@@ -26,6 +26,7 @@ public class ProxyFactory {
 
                 // 负载均衡
                 URL url = Loadbalancer.random(list);
+                System.out.println(url.getPort());
 
                 // 服务调用
                 String s = (String) httpClient.send(url.getHostname(),url.getPort(),invocation);

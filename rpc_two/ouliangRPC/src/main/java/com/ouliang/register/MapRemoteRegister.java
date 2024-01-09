@@ -23,7 +23,7 @@ public class MapRemoteRegister {
         save(false);
     }
 
-    public static void registerOnTime(String interfaceName,String version, URL url) {
+    public static void registerOnTime(String interfaceName, String version, URL url) {
         new Thread((Runnable) () -> {
             while (true) {
                 System.out.println("线程启动");
@@ -47,6 +47,7 @@ public class MapRemoteRegister {
     }
 
     public static void register(String interfaceName, String version, URL url) {
+        map = get();
         List<URL> list = map.get(interfaceName + version);
         if (list == null) {
             list = new ArrayList<>();
@@ -60,14 +61,16 @@ public class MapRemoteRegister {
     public static List<URL> get(String interfaceName) {
         map = get();
         cleanUp();
-        List<URL> urls = map.get(interfaceName);
-
         return map.get(interfaceName);
     }
 
     private static void save(boolean flag) {
-        if (new File("register.txt").exists() && flag)
-            map.putAll(get());
+//        if (new File("register.txt").exists() && flag) {
+////            map.putAll(get());// 键值对替换了
+//            Map<String, List<URL>> c = get();
+//             c.putAll(map);
+//             map=c;
+//        }
         FileOutputStream fileOutputStream = null;
         try {
             fileOutputStream = new FileOutputStream("register.txt");
@@ -82,6 +85,7 @@ public class MapRemoteRegister {
 
 
     private static Map<String, List<URL>> get() {
+        if (!new File("register.txt").exists()) return new HashMap<>();
         FileInputStream fileInputStream = null;
         try {
             fileInputStream = new FileInputStream("register.txt");

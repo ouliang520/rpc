@@ -19,7 +19,9 @@ public class Provider {
 
         // 注册中心注册
         URL url = new URL("localhost", 8899);
+        URL url1 = new URL("localhost", 8900);
         MapRemoteRegister.register(TestService.class.getName(), "1.0", url);
+        MapRemoteRegister.register(TestService.class.getName(), "1.0", url1);
 //        MapRemoteRegister.register(TestService.class.getName(),"2.0",url);
 
         // Netty , Tomcat
@@ -34,6 +36,16 @@ class test {
         LocalRegister.register(TestService.class.getName(), "2.0", TestServiceImpl1.class);
         URL url = new URL("localhost", 8800);
         MapRemoteRegister.registerOnTime(TestService.class.getName(), "2.0", url);
+        HttpServer httpServer = new HttpServer();
+        httpServer.start(url.getHostname(), url.getPort());
+    }
+}
+
+class test1 {
+    public static void main(String[] args) {
+        LocalRegister.register(TestService.class.getName(), "1.0", TestServiceImpl.class);
+        URL url = new URL("localhost", 8900);
+        MapRemoteRegister.register(TestService.class.getName(), "1.0", url);
         HttpServer httpServer = new HttpServer();
         httpServer.start(url.getHostname(), url.getPort());
     }
