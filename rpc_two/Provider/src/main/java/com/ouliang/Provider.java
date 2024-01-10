@@ -4,6 +4,7 @@ import com.ouliang.common.URL;
 import com.ouliang.protocol.HttpServer;
 import com.ouliang.register.LocalRegister;
 import com.ouliang.register.MapRemoteRegister;
+import com.ouliang.registerInterface.RegisterApplication;
 
 import java.io.File;
 
@@ -48,6 +49,12 @@ class test1 {
         MapRemoteRegister.register(TestService.class.getName(), "1.0", url);
         HttpServer httpServer = new HttpServer();
         httpServer.start(url.getHostname(), url.getPort());
+    }
+}
+
+class test2 {
+    public static void main(String[] args) {
+        RegisterApplication.run("com.ouliang");
     }
 }
 
