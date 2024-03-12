@@ -8,6 +8,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -23,7 +24,11 @@ public class HttpServerHandler {
             Method method = classImpl.getMethod(invocation.getMethodName(), invocation.getParameterTypes());
             Object result = method.invoke(classImpl.newInstance(), invocation.getParameters());
 
-            IOUtils.write((String) result,resp.getOutputStream()); //
+            ObjectOutputStream outputStream = new ObjectOutputStream(resp.getOutputStream());
+            outputStream.writeObject(result);
+            outputStream.flush();
+            outputStream.close();
+
         } catch (IOException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {

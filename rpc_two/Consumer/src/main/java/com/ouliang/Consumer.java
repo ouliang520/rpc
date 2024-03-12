@@ -19,6 +19,8 @@ public class Consumer {
         // 代理封装细节
         TestService service = ProxyFactory.getProxy(TestService.class,"1.0");
         String result = service.tryTest("ouliang");
+        Object o = service.selectStudent(1,"茵童");
         System.out.println(result);
+        System.out.println(o);
     }
 }

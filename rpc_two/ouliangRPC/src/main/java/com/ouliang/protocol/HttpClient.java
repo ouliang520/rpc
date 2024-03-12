@@ -3,10 +3,7 @@ package com.ouliang.protocol;
 import com.ouliang.common.Invocation;
 import org.apache.commons.io.IOUtils;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,10 +29,11 @@ public class HttpClient {
             oos.close();
 
             InputStream inputStream = httpURLConnection.getInputStream();
-            Object result = IOUtils.toString(inputStream); //
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            Object result = objectInputStream.readObject();
 
             return result;
-        } catch (MalformedURLException e) {
+        } catch (MalformedURLException | ClassNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
