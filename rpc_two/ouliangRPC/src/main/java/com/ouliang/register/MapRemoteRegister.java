@@ -4,21 +4,41 @@ import com.ouliang.common.URL;
 import com.ouliang.utils.TestUtils;
 
 import java.io.*;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.*;
 
 // 模拟远程注册中心
 public class MapRemoteRegister {
     private static final String filePath = "rpc_two/ouliangRPC/src/main/resources/register.properties";
     private static Map<String, List<URL>> map = new HashMap<>();
+//    private static FileEventMonitor fileEventMonitor;
 
-    public static void register(String interfaceName, URL url) {
-        List<URL> list = map.get(interfaceName);
+    public static void register(String interfaceName, String version, URL url) {
+//        监听器与注册中心应该独立于提供者,为了方便将注册接口直接提供
+//        if (fileEventMonitor == null) {
+//            try {
+//                fileEventMonitor = new FileEventMonitor(500L);
+//                fileEventMonitor.startWatch(new FileEventMonitor.FileEventCallback() {
+//                    @Override
+//                    public void OnHeart(File file) {
+//
+//                    }
+//                });
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
+        List<URL> list = map.get(interfaceName + version);
         if (list == null) {
             list = new ArrayList<>();
         }
         list.add(url);
-        map.put(interfaceName, list);
+        map.put(interfaceName + version, list);
 
+        // 加入监听
+//        fileEventMonitor.watch(interfaceName, version, url);
+        watch(interfaceName, version, url);
         save();
     }
 
@@ -76,6 +96,27 @@ public class MapRemoteRegister {
         return null;
     }
 
+    /**
+     * 通知注册中心
+     */
 
+    public static void watch(String interfaceName, String version, URL url){
+        try {
+            Socket s = new Socket("localhost", 8888);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            DataOutputStream dos = new DataOutputStream(baos);
+            dos.writeUTF(interfaceName);
+            dos.writeUTF(version);
+            dos.writeUTF(url.getHostname());
+            dos.writeInt(url.getPort());
+
+            s.getOutputStream().write(baos.toByteArray());
+            s.getOutputStream().flush();
+        } catch (UnknownHostException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
