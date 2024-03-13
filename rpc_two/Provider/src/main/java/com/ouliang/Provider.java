@@ -14,7 +14,7 @@ public class Provider {
 
         // 注册中心注册
         URL url = new URL("localhost",8899);
-        MapRemoteRegister.register(TestService.class.getName(),url);
+        MapRemoteRegister.register(TestService.class.getName(),"1.0",url);
 
         // Netty , Tomcat
         HttpServer httpServer = new HttpServer();

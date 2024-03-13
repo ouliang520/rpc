@@ -2,7 +2,7 @@ package com.ouliang;
 
 import com.ouliang.pojo.Student;
 
-public class TestServiceImpl implements TestService{
+public class TestServiceImpl implements TestService,Heartbeat{
 
     @Override
     public String tryTest(String name) {
