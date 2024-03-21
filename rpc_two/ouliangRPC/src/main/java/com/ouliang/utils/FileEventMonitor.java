@@ -5,8 +5,10 @@ import com.ouliang.common.URL;
 import com.ouliang.protocol.HttpClient;
 
 import java.io.*;
+import java.net.ConnectException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.Objects;
 import java.util.Queue;
 import java.util.concurrent.*;
@@ -84,6 +86,25 @@ public class FileEventMonitor<T> {
         }
     }
 
+    private void unWatch(WatchContext context) {
+        watchContextQueue.remove(context);
+        String value = null;
+        try {
+            value = TestUtils.getPros(new File(filePath), context.getInterfaceName() + context.getVersion());
+            URL url = context.getUrl();
+            String removeUrl = url.getHostname() + ":" + url.getPort() + ",";
+            value = value.replace(removeUrl, "");
+
+            if ("".equals(value)) {
+                TestUtils.removeProps(new File(filePath), context.getInterfaceName() + context.getVersion());
+            } else {
+                TestUtils.setProps(new File(filePath), context.getInterfaceName() + context.getVersion(), value);
+            }
+        } catch (IOException e) {
+            System.err.println("找不到配置文件");
+        }
+    }
+
     public class WatchTask implements Runnable {
         private final FileEventCallback<T> callback;
 
@@ -95,8 +116,16 @@ public class FileEventMonitor<T> {
         public void run() {
             for (WatchContext watchContext : watchContextQueue) {
                 Invocation invocation = new Invocation(watchContext.interfaceName, "heart", new Class[]{}, null, watchContext.getVersion());
-                Boolean result = (java.lang.Boolean) new HttpClient().send(watchContext.getUrl().getHostname(), watchContext.getUrl().getPort(), invocation);
-                System.out.println(watchContext.getInterfaceName()+" "+result);
+                try {
+                    Boolean result = (java.lang.Boolean) new HttpClient().RegisterSend(watchContext.getUrl().getHostname(), watchContext.getUrl().getPort(), invocation);
+                    System.out.println(watchContext.getInterfaceName() + " " + result);
+                } catch (IOException e) {
+                    System.out.println("连接失败" + watchContext.sum + "次");
+                    watchContext.sum++;
+                    if (watchContext.sum > 3) {
+                        unWatch(watchContext);
+                    }
+                }
             }
         }
     }
@@ -149,6 +178,11 @@ public class FileEventMonitor<T> {
         public void setUrl(URL url) {
             this.url = url;
         }
+
+        public int getSum() {
+            return this.sum;
+        }
+
     }
 
     public static void main(String[] args) throws IOException {

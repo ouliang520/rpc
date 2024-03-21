@@ -40,4 +40,33 @@ public class HttpClient {
         }
         return null;
     }
+
+    public Object RegisterSend(String hostname, Integer port, Invocation invocation) throws IOException {
+        // 用户的配置
+
+        try {
+            URL url = new URL("http", hostname, port, "/");
+            HttpURLConnection httpURLConnection = (HttpURLConnection) url.openConnection();
+
+            httpURLConnection.setRequestMethod("POST");
+            httpURLConnection.setDoOutput(true);
+
+            // 配置
+            OutputStream outputStream = httpURLConnection.getOutputStream();
+            ObjectOutputStream oos = new ObjectOutputStream(outputStream);
+
+            oos.writeObject(invocation);
+            oos.flush();
+            oos.close();
+
+            InputStream inputStream = httpURLConnection.getInputStream();
+            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
+            Object result = objectInputStream.readObject();
+
+            return result;
+        } catch (MalformedURLException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

@@ -44,6 +44,14 @@ public class TestUtils {
         setProps(propsFile, key, value);
     }
 
+    public static String getPros(File propsFile, String key) throws IOException {
+        Properties properties = new Properties();
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(Files.newInputStream(propsFile.toPath()), StandardCharsets.UTF_8))) {
+            properties.load(reader);
+        }
+        return properties.getProperty(key);
+    }
+
     /**
      * 删除配置文件
      *

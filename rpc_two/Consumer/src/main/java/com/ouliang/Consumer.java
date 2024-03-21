@@ -20,6 +20,7 @@ public class Consumer {
         TestService service = ProxyFactory.getProxy(TestService.class,"1.0");
         String result = service.tryTest("ouliang");
         Object o = service.selectStudent(1,"茵童");
+        Object d = service.heart();
         System.out.println(result);
         System.out.println(o);
     }
